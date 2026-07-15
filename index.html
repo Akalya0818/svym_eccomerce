@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cosmic Wishlists - Constellation Storefront</title>
+  
+  <!-- Google Fonts - Cinzel (Serif display) & Outfit (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+</head>
+<body class="cosmic-theme">
+
+  <!-- Background Twinkling Canvas -->
+  <canvas id="bg-twinkle-canvas" class="bg-canvas"></canvas>
+
+  <header class="cosmic-header">
+    <div class="header-container">
+      <div class="logo">
+        <i class="fa-solid fa-wand-magic-sparkles logo-icon"></i>
+        <h1>CELESTIA COUTURE</h1>
+      </div>
+      
+      <nav class="header-nav">
+        <a href="#" class="nav-link active">Shop</a>
+        <a href="#" class="nav-link">Categories</a>
+        <a href="#" class="nav-link">Deals</a>
+        <a href="#" class="nav-link">Support</a>
+      </nav>
+
+      <div class="search-wrapper header-search">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="search-input" placeholder="Search premium catalog..." aria-label="Search items">
+      </div>
+
+      <div class="header-actions">
+        <button id="import-btn" class="btn btn-glow btn-sm" title="Import Wishlist Code">
+          <i class="fa-solid fa-file-import"></i> Import
+        </button>
+        <button class="btn-icon" title="Cart (0)">
+          <i class="fa-solid fa-cart-shopping"></i>
+        </button>
+        <button class="btn-icon" title="My Account">
+          <i class="fa-solid fa-user"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-layout">
+    <!-- Storefront Column -->
+    <section class="storefront-section">
+      <!-- SHOP VIEW -->
+      <div id="shop-view" class="view-panel">
+        <!-- Filter Bar -->
+        <div class="filter-controls">
+          <div class="filter-group">
+            <label for="category-filter" class="filter-label"><i class="fa-solid fa-filter"></i> Category:</label>
+            <div class="dropdown-wrapper">
+              <select id="category-filter" aria-label="Filter by Category">
+                <option value="">All Categories</option>
+                <option value="Celestial Gowns">Celestial Gowns</option>
+                <option value="Nebula Casuals">Nebula Casuals</option>
+                <option value="Supernova Party">Supernova Party</option>
+                <option value="Astral Bridal">Astral Bridal</option>
+                <option value="Orbit Silhouette">Orbit Silhouette</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label for="sort-filter" class="filter-label"><i class="fa-solid fa-arrow-down-wide-narrow"></i> Sort By:</label>
+            <div class="dropdown-wrapper">
+              <select id="sort-filter" aria-label="Sort products by">
+                <option value="rating-desc">Rating (High to Low)</option>
+                <option value="price-asc">Price (Low to High)</option>
+                <option value="price-desc">Price (High to Low)</option>
+                <option value="name-asc">Name (A - Z)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- Products Grid -->
+        <div id="products-grid" class="products-grid">
+          <!-- Skeleton loaders rendered initially by app.js, then replaced by product cards -->
+        </div>
+      </div>
+
+      <!-- CATEGORIES VIEW -->
+      <div id="categories-view" class="view-panel hidden">
+        <div class="view-header">
+          <h2>Explore Collections</h2>
+          <p class="text-muted">Browse our premium celestial-themed designer dress categories.</p>
+        </div>
+        
+        <div class="categories-grid">
+          <div class="category-card" data-category="Celestial Gowns" style="background-image: linear-gradient(rgba(12, 12, 28, 0.45), rgba(6, 6, 12, 0.9)), url('https://picsum.photos/seed/gowncat/600/400');">
+            <div class="category-card-content">
+              <h3>Celestial Gowns</h3>
+              <p>Stunning evening gowns, formal gala dresses, and stardust sequins.</p>
+              <span class="category-explore-btn">Browse Collection <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </div>
+
+          <div class="category-card" data-category="Nebula Casuals" style="background-image: linear-gradient(rgba(12, 12, 28, 0.45), rgba(6, 6, 12, 0.9)), url('https://picsum.photos/seed/casualcat/600/400');">
+            <div class="category-card-content">
+              <h3>Nebula Casuals</h3>
+              <p>Flowy sundresses, lightweight linen garments, and effortless silhouettes.</p>
+              <span class="category-explore-btn">Browse Collection <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </div>
+
+          <div class="category-card" data-category="Supernova Party" style="background-image: linear-gradient(rgba(12, 12, 28, 0.45), rgba(6, 6, 12, 0.9)), url('https://picsum.photos/seed/partycat/600/400');">
+            <div class="category-card-content">
+              <h3>Supernova Party</h3>
+              <p>Sleek cocktail mini-dresses, satin statement items, and party stars.</p>
+              <span class="category-explore-btn">Browse Collection <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </div>
+
+          <div class="category-card" data-category="Astral Bridal" style="background-image: linear-gradient(rgba(12, 12, 28, 0.45), rgba(6, 6, 12, 0.9)), url('https://picsum.photos/seed/bridalcat/600/400');">
+            <div class="category-card-content">
+              <h3>Astral Bridal</h3>
+              <p>Premium lace bridal creations, wedding dresses, and accessories.</p>
+              <span class="category-explore-btn">Browse Collection <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </div>
+
+          <div class="category-card" data-category="Orbit Silhouette" style="background-image: linear-gradient(rgba(12, 12, 28, 0.45), rgba(6, 6, 12, 0.9)), url('https://picsum.photos/seed/slipcat/600/400');">
+            <div class="category-card-content">
+              <h3>Orbit Silhouette</h3>
+              <p>Midi-cut wrap dresses, silk slip dresses, and minimalist coordinates.</p>
+              <span class="category-explore-btn">Browse Collection <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEALS VIEW -->
+      <div id="deals-view" class="view-panel hidden">
+        <div class="view-header">
+          <h2>Stellar Offers</h2>
+          <p class="text-muted">Exquisite savings on designer bridal wear and luxury evening gowns.</p>
+        </div>
+
+        <div class="deals-layout">
+          <!-- Daily Deal Hero -->
+          <div class="deal-hero">
+            <div class="deal-hero-info">
+              <span class="badge-deal">DAILY ECLIPSE OFFER</span>
+              <h3>Star-Dust Sequin Dress</h3>
+              <p class="deal-description">Bask in the glow of our signature hand-embroidered sequin dress, now available at special pricing for a limited window.</p>
+              <div class="deal-prices">
+                <span class="old-price">$360.00</span>
+                <span class="new-price">$269.00</span>
+              </div>
+              <div class="deal-timer" id="deal-timer">
+                <div class="timer-box"><span id="timer-h">08</span><label>hrs</label></div>
+                <div class="timer-box"><span id="timer-m">42</span><label>mins</label></div>
+                <div class="timer-box"><span id="timer-s">15</span><label>secs</label></div>
+              </div>
+              <button class="btn btn-primary" id="claim-deal-btn">
+                <i class="fa-solid fa-cart-shopping"></i> Claim Eclipse Offer
+              </button>
+            </div>
+            <div class="deal-hero-image">
+              <img src="https://picsum.photos/seed/dress24/400/500" alt="Special Deal Gown">
+            </div>
+          </div>
+
+          <!-- Coupons Section -->
+          <div class="coupons-section">
+            <h3>Active Coupon Codes</h3>
+            <div class="coupons-grid">
+              <div class="coupon-card">
+                <span class="coupon-discount">20% OFF</span>
+                <h4>CELestial GOWNS</h4>
+                <p>Save 20% on any evening wear or tulle ballgowns.</p>
+                <div class="coupon-code-box">
+                  <span class="coupon-code">GOWN20</span>
+                  <button class="btn-copy-coupon" data-code="GOWN20" title="Copy coupon code">
+                    <i class="fa-solid fa-copy"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="coupon-card">
+                <span class="coupon-discount">$50 OFF</span>
+                <h4>ASTRAL BRIDAL</h4>
+                <p>Apply to any dress in our wedding and bridal catalog.</p>
+                <div class="coupon-code-box">
+                  <span class="coupon-code">BRIDAL50</span>
+                  <button class="btn-copy-coupon" data-code="BRIDAL50" title="Copy coupon code">
+                    <i class="fa-solid fa-copy"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="coupon-card">
+                <span class="coupon-discount">FREE SHP</span>
+                <h4>GLOBAL EXPRESS</h4>
+                <p>Free priority shipping on orders exceeding $150.</p>
+                <div class="coupon-code-box">
+                  <span class="coupon-code">STELLARSHIP</span>
+                  <button class="btn-copy-coupon" data-code="STELLARSHIP" title="Copy coupon code">
+                    <i class="fa-solid fa-copy"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUPPORT VIEW -->
+      <div id="support-view" class="view-panel hidden">
+        <div class="view-header">
+          <h2>Customer Concierge</h2>
+          <p class="text-muted">Need guidance on sizing or customization? Connect with our representatives.</p>
+        </div>
+
+        <div class="support-layout">
+          <!-- Collapsible Accordion -->
+          <div class="support-faq">
+            <h3>Frequently Answered Questions</h3>
+            <div class="faq-container">
+              <div class="faq-item">
+                <button class="faq-toggle">
+                  <span>How does boutique sizing work?</span>
+                  <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                  <p>Our sizing spans standard US sizes 0 to 16. Each product quick-view sheet has measurement guidelines. For structured silk slip dresses, we recommend choosing your exact size, whereas velvet materials have up to 5% stretch allowance.</p>
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <button class="faq-toggle">
+                  <span>What is your return policy?</span>
+                  <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                  <p>We provide a 30-day return window for all items. Dresses must be returned in their original condition, unworn, unwashed, and with all boutique tags intact. Return labels are completely prepaid.</p>
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <button class="faq-toggle">
+                  <span>Can I request custom adjustments?</span>
+                  <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                  <p>Yes, our *Astral Bridal* collection supports custom alterations (hem length, bust lining adjustments). Please submit your exact measurements in the notes field when adding to wishlist or email our atelier team directly.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <div class="support-contact">
+            <h3>Transmit message to Atelier</h3>
+            <form id="support-contact-form" class="support-form">
+              <div class="form-group">
+                <label for="contact-name">Customer Name</label>
+                <input type="text" id="contact-name" placeholder="Akalya" required>
+              </div>
+              <div class="form-group">
+                <label for="contact-email">Email Address</label>
+                <input type="email" id="contact-email" placeholder="akalya@example.com" required>
+              </div>
+              <div class="form-group">
+                <label for="contact-topic">Topic of Discussion</label>
+                <select id="contact-topic" aria-label="Support topic">
+                  <option value="sizing">Boutique Size Guidance</option>
+                  <option value="shipping">Shipping &amp; Transit Details</option>
+                  <option value="returns">Refunds &amp; Returns</option>
+                  <option value="custom">Custom Tailoring Inquiry</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="contact-message">Your Inquiry</label>
+                <textarea id="contact-message" rows="4" placeholder="Detail your dress inquiries..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-paper-plane"></i> Transmit Inquiry
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Constellation Wishlist Column -->
+    <aside class="wishlist-section">
+      <div class="section-card wishlist-panel">
+        <div class="panel-header">
+          <h2>Wishlist Clusters</h2>
+          <div class="list-selector-wrapper">
+            <select id="wishlist-selector" aria-label="Choose wishlist">
+              <!-- Populated by app.js -->
+            </select>
+            <button id="new-list-btn" class="btn-icon" title="Create New Wishlist">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+            <button id="delete-list-btn" class="btn-icon btn-danger-icon" title="Delete Current Wishlist">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- The Interactive Wishlist Canvas Visualizer -->
+        <div class="canvas-container">
+          <canvas id="constellation-canvas"></canvas>
+          <div id="canvas-empty-state" class="canvas-overlay-message hidden">
+            <i class="fa-regular fa-moon empty-icon animate-pulse"></i>
+            <p>Your constellation is empty.<br>Add stars from the storefront below.</p>
+          </div>
+        </div>
+
+        <div class="panel-actions">
+          <div class="list-theme-selector">
+            <span>Glow Color:</span>
+            <div id="theme-dots" class="theme-dots">
+              <span class="theme-dot active" data-theme="cyan" style="background-color: var(--color-cyan);"></span>
+              <span class="theme-dot" data-theme="purple" style="background-color: var(--color-purple);"></span>
+              <span class="theme-dot" data-theme="gold" style="background-color: var(--color-gold);"></span>
+              <span class="theme-dot" data-theme="rose" style="background-color: var(--color-rose);"></span>
+              <span class="theme-dot" data-theme="emerald" style="background-color: var(--color-emerald);"></span>
+            </div>
+          </div>
+          <button id="share-list-btn" class="btn btn-glow btn-sm">
+            <i class="fa-solid fa-share-nodes"></i> Share Code
+          </button>
+          <button id="local-merge-btn" class="btn btn-primary btn-sm">
+            <i class="fa-solid fa-code-merge"></i> Merge Clusters
+          </button>
+        </div>
+
+        <!-- Listed wishlist items under the canvas (for easy management/responsive stack) -->
+        <div class="wishlist-list-view">
+          <h3>Cluster Star Nodes</h3>
+          <ul id="wishlist-items-list" class="wishlist-items-list">
+            <!-- Populated by app.js -->
+          </ul>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Quick-View Modal -->
+  <div id="quickview-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <button class="modal-close" id="quickview-close-btn" aria-label="Close modal">&times;</button>
+      <div class="modal-body product-quick-view">
+        <div class="modal-image-wrapper">
+          <img id="qv-image" src="" alt="Product image">
+        </div>
+        <div class="modal-info-wrapper">
+          <span id="qv-category" class="product-category"></span>
+          <h2 id="qv-name"></h2>
+          <div class="rating-stars" id="qv-rating-container">
+            <!-- Rating stars -->
+          </div>
+          <p id="qv-price" class="product-price"></p>
+          <p id="qv-description" class="product-description"></p>
+          
+          <form id="add-wishlist-form" class="qv-wishlist-form">
+            <div class="form-group">
+              <label for="qv-priority">Star Priority (Glow Size):</label>
+              <select id="qv-priority">
+                <option value="low">Low (Faint star)</option>
+                <option value="medium" selected>Medium (Standard star)</option>
+                <option value="high">High (Bright supergiant star)</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="qv-note">Star Notes (Optional):</label>
+              <textarea id="qv-note" rows="2" placeholder="E.g., Birthday gift idea, or wait for sale..." maxlength="140"></textarea>
+            </div>
+            
+            <div class="form-actions">
+              <button type="submit" id="qv-add-btn" class="btn btn-primary">
+                <i class="fa-solid fa-heart"></i> Add to Wishlist
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Share/Export Modal -->
+  <div id="share-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay"></div>
+    <div class="modal-content text-center">
+      <button class="modal-close" id="share-close-btn" aria-label="Close modal">&times;</button>
+      <div class="modal-body">
+        <h2><i class="fa-solid fa-share-nodes"></i> Export Constellation</h2>
+        <p>Copy the cosmic code below to share your wishlist with friends or load it in another browser.</p>
+        <div class="export-code-box">
+          <textarea id="share-code-area" readonly></textarea>
+        </div>
+        <button id="copy-code-btn" class="btn btn-primary">
+          <i class="fa-solid fa-copy"></i> Copy Code
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import Modal -->
+  <div id="import-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <button class="modal-close" id="import-close-btn" aria-label="Close modal">&times;</button>
+      <div class="modal-body">
+        <h2><i class="fa-solid fa-file-import"></i> Import Constellation</h2>
+        <p>Paste a base64 cosmic cluster code below to import and merge another wishlist.</p>
+        <div class="form-group">
+          <textarea id="import-code-area" placeholder="Paste the code here..." rows="6"></textarea>
+        </div>
+        <div class="form-actions">
+          <button id="load-import-btn" class="btn btn-primary">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Process &amp; Preview Merge
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Merge Visualization & Conflict Resolution Modal -->
+  <div id="merge-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay"></div>
+    <div class="modal-content modal-lg">
+      <button class="modal-close" id="merge-close-btn" aria-label="Close modal">&times;</button>
+      <div class="modal-body">
+        <h2><i class="fa-solid fa-code-merge"></i> Cosmic Cluster Merge Preview</h2>
+        <p class="merge-subtitle">Watch the star clusters align and resolve celestial conflicts before final fusion.</p>
+
+        <!-- Merge Canvas Animating the clusters drifting together -->
+        <div class="merge-canvas-container">
+          <canvas id="merge-canvas"></canvas>
+          <div class="merge-canvas-labels">
+            <span class="label-left">Current Cluster</span>
+            <span class="label-right">Imported Cluster</span>
+          </div>
+        </div>
+
+        <!-- Conflict Resolution and List Diff UI -->
+        <div class="merge-details-container">
+          <div class="merge-summary-stats">
+            <div class="stat-card"><span id="stat-total">0</span><label>Total Items</label></div>
+            <div class="stat-card text-success"><span id="stat-unique-a">0</span><label>Only in Current</label></div>
+            <div class="stat-card text-info"><span id="stat-unique-b">0</span><label>Only in Imported</label></div>
+            <div class="stat-card text-warning"><span id="stat-conflicts">0</span><label>Conflicts</label></div>
+          </div>
+
+          <div class="merge-diff-header">
+            <h3>Star Node Comparison</h3>
+            <span class="text-muted">Please resolve any overlapping nodes (conflicts) in the items below.</span>
+          </div>
+
+          <div class="merge-list-wrapper">
+            <div class="merge-list-section">
+              <h4>Conflicts (Overlapping Stars)</h4>
+              <div id="merge-conflicts-list" class="merge-diff-list">
+                <!-- Conflicts go here -->
+              </div>
+            </div>
+
+            <div class="merge-list-section">
+              <h4>Unique &amp; Common Stars (Auto-merged)</h4>
+              <div id="merge-nonconflicts-list" class="merge-diff-list">
+                <!-- Non-conflicting matches go here -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <div class="new-list-name-wrapper">
+            <label for="merge-new-name">Merged Wishlist Name:</label>
+            <input type="text" id="merge-new-name" value="Merged Constellation">
+          </div>
+          <div class="footer-actions">
+            <button id="cancel-merge-btn" class="btn btn-secondary">Cancel</button>
+            <button id="confirm-merge-btn" class="btn btn-primary" disabled>
+              <i class="fa-solid fa-circle-check"></i> Complete Fusion
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create New Wishlist Modal -->
+  <div id="new-list-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay"></div>
+    <div class="modal-content text-center">
+      <button class="modal-close" id="new-list-close-btn" aria-label="Close modal">&times;</button>
+      <div class="modal-body">
+        <h2>Create Cosmic Cluster</h2>
+        <p>Form a new constellation of stars under a new name.</p>
+        <div class="form-group">
+          <input type="text" id="new-list-name-input" placeholder="E.g., Starry Decors" maxlength="25">
+        </div>
+        <div class="form-group text-center">
+          <label>Starting Glow Accent:</label>
+          <div id="new-list-theme-dots" class="theme-dots centered-dots">
+            <span class="theme-dot active" data-theme="cyan" style="background-color: var(--color-cyan);"></span>
+            <span class="theme-dot" data-theme="purple" style="background-color: var(--color-purple);"></span>
+            <span class="theme-dot" data-theme="gold" style="background-color: var(--color-gold);"></span>
+            <span class="theme-dot" data-theme="rose" style="background-color: var(--color-rose);"></span>
+            <span class="theme-dot" data-theme="emerald" style="background-color: var(--color-emerald);"></span>
+          </div>
+        </div>
+        <button id="save-new-list-btn" class="btn btn-primary">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Form Constellation
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Local Merge Modal -->
+  <div id="local-merge-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay"></div>
+    <div class="modal-content text-center">
+      <button class="modal-close" id="local-merge-close-btn" aria-label="Close modal">&times;</button>
+      <div class="modal-body">
+        <h2>Merge Local Clusters</h2>
+        <p>Select another local wishlist to merge directly into the current active constellation.</p>
+        <div class="form-group" style="margin: 1.5rem 0;">
+          <label for="local-merge-select">Choose Wishlist:</label>
+          <select id="local-merge-select" aria-label="Wishlist to merge">
+            <!-- Populated by app.js -->
+          </select>
+        </div>
+        <div class="modal-actions" style="display: flex; gap: 0.75rem; justify-content: center; margin-top: 1.5rem;">
+          <button id="start-local-merge-btn" class="btn btn-secondary">
+            <i class="fa-solid fa-eye"></i> Preview Merge
+          </button>
+          <button id="direct-local-merge-btn" class="btn btn-primary">
+            <i class="fa-solid fa-bolt"></i> Direct Merge
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Delete Modal -->
+  <div id="confirm-delete-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay"></div>
+    <div class="modal-content text-center">
+      <button class="modal-close" id="confirm-delete-close-btn" aria-label="Close modal">&times;</button>
+      <div class="modal-body">
+        <h2>Vaporize Constellation?</h2>
+        <p style="margin: 1.25rem 0; color: var(--text-secondary);">Are you sure you want to vaporize the entire <strong id="delete-list-name" class="text-warning">Wishlist</strong> cluster?<br>This actions cannot be undone.</p>
+        <div class="modal-actions" style="display: flex; gap: 0.75rem; justify-content: center; margin-top: 1.5rem;">
+          <button id="cancel-delete-list-btn" class="btn btn-secondary">Cancel</button>
+          <button id="execute-delete-list-btn" class="btn btn-primary" style="background: var(--color-rose); border-color: rgba(244, 63, 94, 0.4); box-shadow: 0 0 15px rgba(244, 63, 94, 0.2);">
+            <i class="fa-solid fa-trash-can"></i> Yes, Vaporize
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Footer -->
+  <footer class="cosmic-footer">
+    <p>&copy; 2026 LuminaStellar. Created for cosmic cataloging and starry wishes.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
