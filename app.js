@@ -392,7 +392,7 @@ function renderProducts() {
     card.innerHTML = `
       <div class="card-inner">
         <div class="card-image-container">
-          <img src="${product.image}" alt="${product.name}" loading="lazy">
+          <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500&auto=format&fit=crop&q=80';">
           ${stockBadge}
           <button class="wishlist-toggle-btn ${activeClass}" aria-label="Add to wishlist">
             <i class="fa-solid fa-heart"></i>
@@ -939,6 +939,10 @@ function openQuickView(productId) {
   selectedProductId = productId;
   
   qvImage.src = product.image;
+  qvImage.onerror = () => {
+    qvImage.onerror = null;
+    qvImage.src = 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500&auto=format&fit=crop&q=80';
+  };
   qvImage.alt = product.name;
   qvCategory.textContent = product.category;
   qvName.textContent = product.name;
